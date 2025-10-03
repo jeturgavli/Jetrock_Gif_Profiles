@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My GIF Slideshow</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #111;
+      color: white;
+      margin: 0;
+    }
+    img {
+      max-width: 80%;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+  <img id="slideshow" src="" alt="GIF Slideshow">
+
+  <script>
+    let gifs = [];
+    let index = 0;
+    const imgTag = document.getElementById("slideshow");
+
+    // gifs fetch via json file -- Gun Shot
+    fetch('gifs.json')
+      .then(res => res.json())
+      .then(data => {
+        gifs = data;
+        if(gifs.length > 0) {
+          imgTag.src = "profile/" + gifs[0]; // strting gif 
+          startSlideshow();
+        }
+      })
+      .catch(err => console.error("Error loading GIFs:", err));
+
+    function startSlideshow() {
+      setInterval(() => {
+        index = (index + 1) % gifs.length;
+        imgTag.src = "profile/" + gifs[index];
+      }, 15000); // 60000ms = 1 minute // time travel Hahahha
+    }
+  </script>
+</body>
+</html>
