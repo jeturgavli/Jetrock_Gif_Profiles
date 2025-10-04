@@ -1,15 +1,23 @@
 import os
 import json
+import shutil
 
-# GIFs ka folder path
-gif_folder = "profile"  # aapke folder ka naam
-json_file = "gifs.json"  # output JSON file
+# Profile folder
+folder = "profile"
+json_file = "gifs.json"
+latest_file = "latest.gif"
 
-# GIF files read karna aur sort karna
-gif_files = sorted([f for f in os.listdir(gif_folder) if f.lower().endswith(".gif")])
+# Collect all GIFs
+gifs = sorted([f for f in os.listdir(folder) if f.endswith(".gif")])
 
-# JSON me likhna
+# Save list to gifs.json
 with open(json_file, "w") as f:
-    json.dump(gif_files, f, indent=2)
+    json.dump(gifs, f, indent=2)
 
-print(f"{json_file} updated with {len(gif_files)} GIFs!")
+print("✅ gifs.json updated with:", gifs)
+
+# Update latest.gif -> point to first gif (or you can rotate)
+if gifs:
+    src = os.path.join(folder, gifs[0])
+    shutil.copy(src, latest_file)
+    print(f"✅ latest.gif updated -> {src}")
