@@ -1,14 +1,14 @@
 import os
 import json
 import shutil
+import random
 
-# Profile folder
 folder = "profile"
 json_file = "gifs.json"
 latest_file = "latest.gif"
 
 # Collect all GIFs
-gifs = sorted([f for f in os.listdir(folder) if f.endswith(".gif")])
+gifs = [f for f in os.listdir(folder) if f.endswith(".gif")]
 
 # Save list to gifs.json
 with open(json_file, "w") as f:
@@ -16,8 +16,8 @@ with open(json_file, "w") as f:
 
 print("✅ gifs.json updated with:", gifs)
 
-# Update latest.gif -> point to first gif (or you can rotate)
+# Pick random gif for latest.gif
 if gifs:
-    src = os.path.join(folder, gifs[0])
+    src = os.path.join(folder, random.choice(gifs))
     shutil.copy(src, latest_file)
     print(f"✅ latest.gif updated -> {src}")
